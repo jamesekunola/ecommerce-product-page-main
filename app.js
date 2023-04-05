@@ -1,32 +1,35 @@
-const mobileMenuBtn = document.querySelector(".hambugar-menu");
-const closeMobileMenuBtn = document.querySelector(".close-btn");
-const mobileMenuEl = document.querySelector(".mobile-menu");
-const overlay = document.querySelector(".overlay");
-const nextImg = document.querySelector(".next-img");
-const previousImg = document.querySelector(".previous-img");
-const imgGallery = document.querySelectorAll(".hero .product-images");
-const heroSmlGallery = document.querySelectorAll(".hero .small-product__img");
-const modalGallery = document.querySelectorAll(".modal .product-images");
+// Selectors
+const mobileMenuBtn = document.querySelector(".hambugar-menu"); // Selecting hamburger menu button
+const closeMobileMenuBtn = document.querySelector(".close-btn"); // Selecting close button of mobile menu
+const mobileMenuEl = document.querySelector(".mobile-menu"); // Selecting mobile menu
+const overlay = document.querySelector(".overlay"); // Selecting overlay
+const nextImg = document.querySelector(".next-img"); // Selecting next button of image gallery
+const previousImg = document.querySelector(".previous-img"); // Selecting previous button of image gallery
+const imgGallery = document.querySelectorAll(".hero .product-images"); // Selecting all product images in the hero section
+const heroSmlGallery = document.querySelectorAll(".hero .small-product__img"); // Selecting all small product images in the hero section
+const modalGallery = document.querySelectorAll(".modal .product-images"); // Selecting all product images in the modal box
 const modalSmlGallery = document.querySelectorAll(
   ".modal-container .small-product__img"
-);
-const nextBtn = document.querySelectorAll(".next-img");
-const prevBtn = document.querySelectorAll(".previous-img");
-const imagescontainerEL = document.querySelectorAll(".hero-images");
-const modalBoxEl = document.querySelector(".modal");
-const closeModalBoxBtn = document.querySelector(".close-modal");
-const totalItemEl = document.querySelector(".shopping-num");
-const increaseItemBtn = document.querySelector(".addition-btn");
-const decreaseItemBtn = document.querySelector(".decrease-btn");
-const counterResultEl = document.querySelector(".counter-result");
-const cartContainer = document.querySelector(".cart-container");
-const checkOutBtn = document.querySelector(".cart-btn");
-const cartBtn = document.querySelector(".cart-list");
-const emptyCartEl = document.querySelector(".empty-cart");
-const cartBoxEl = document.querySelector(".cart-box");
-const basketContainer = document.querySelector(".basket-container");
-let counter = 0;
-let numberOfItem = 0;
+); // Selecting all small product images in the modal box
+const nextBtn = document.querySelectorAll(".next-img"); // Selecting all next buttons in the hero section
+const prevBtn = document.querySelectorAll(".previous-img"); // Selecting all previous buttons in the hero section
+const imagescontainerEL = document.querySelectorAll(".hero-images"); // Selecting image containers in the hero section
+const modalBoxEl = document.querySelector(".modal"); // Selecting modal box
+const closeModalBoxBtn = document.querySelector(".close-modal"); // Selecting close button of modal box
+const totalItemEl = document.querySelector(".shopping-num"); // Selecting total number of items in cart
+const increaseItemBtn = document.querySelector(".addition-btn"); // Selecting increase button in the cart
+const decreaseItemBtn = document.querySelector(".decrease-btn"); // Selecting decrease button in the cart
+const counterResultEl = document.querySelector(".counter-result"); // Selecting result of the currentSlideIndex
+const cartContainer = document.querySelector(".cart-container"); // Selecting cart container
+const checkOutBtn = document.querySelector(".cart-btn"); // Selecting checkout button
+const cartBtn = document.querySelector(".cart-list"); // Selecting cart list
+const emptyCartEl = document.querySelector(".empty-cart"); // Selecting empty cart message
+const cartBoxEl = document.querySelector(".cart-box"); // Selecting cart box
+const basketContainer = document.querySelector(".basket-container"); // Selecting basket container
+
+// Variables
+let currentSlideIndex = 0; // counter variable for the image gallery
+let numberOfItem = 0; // Number of items in cart
 
 // functions
 // mobile nav
@@ -42,10 +45,11 @@ const displayMobileNav = () => {
     overlay.classList.add("active-overlay");
   });
 
-  //   hide mobile navbar and add overlay
+  //   hide mobile navbar and remove overlay
   closeMobileMenuBtn.addEventListener("click", hideMobileMenu);
 };
 // mobile nav end
+
 // image gallery
 const arrangeGallery = (images) => {
   images.forEach((items, index) => {
@@ -56,12 +60,12 @@ const arrangeGallery = (images) => {
 const imgPosition = () => {
   // loop through the img
   imgGallery.forEach((img) => {
-    const position = `translateX(-${counter * 100}%)`;
+    const position = `translateX(-${currentSlideIndex * 100}%)`;
     img.style.transform = position;
   });
   // loop through the modal box gallery
   modalGallery.forEach((img) => {
-    const position = `translateX(-${counter * 100}%)`;
+    const position = `translateX(-${currentSlideIndex * 100}%)`;
     img.style.transform = position;
   });
 };
@@ -76,27 +80,27 @@ const addActiveToCurrentlySmallImg = () => {
     img.classList.remove("active");
   });
 
-  heroSmlGallery[counter].classList.add("active");
-  modalSmlGallery[counter].classList.add("active");
+  heroSmlGallery[currentSlideIndex].classList.add("active");
+  modalSmlGallery[currentSlideIndex].classList.add("active");
 };
 
 const showNextSlide = () => {
-  // increment counter
-  counter++;
+  // increment currentSlideIndex
+  currentSlideIndex++;
 
-  // if counter is greater than images length, set counter to images length
+  // if currentSlideIndex is greater than images length, set currentSlideIndex to images length
   const totalGalleryLenght = imgGallery.length - 1;
-  if (counter > totalGalleryLenght) {
-    counter = totalGalleryLenght;
+  if (currentSlideIndex > totalGalleryLenght) {
+    currentSlideIndex = totalGalleryLenght;
   }
   imgPosition();
   addActiveToCurrentlySmallImg();
 };
 
 const showPreviousSlide = () => {
-  counter--;
-  if (counter < 0) {
-    counter = 0;
+  currentSlideIndex--;
+  if (currentSlideIndex < 0) {
+    currentSlideIndex = 0;
   }
   imgPosition();
   addActiveToCurrentlySmallImg();
@@ -128,7 +132,7 @@ const showSelectedimg = () => {
   //
   modalSmlGallery.forEach((itm, index) => {
     itm.addEventListener("click", () => {
-      counter = index;
+      currentSlideIndex = index;
       imgPosition();
       addActiveToCurrentlySmallImg();
     });
@@ -136,14 +140,12 @@ const showSelectedimg = () => {
   //
   heroSmlGallery.forEach((itm, index) => {
     itm.addEventListener("click", () => {
-      counter = index;
+      currentSlideIndex = index;
       imgPosition();
       addActiveToCurrentlySmallImg();
     });
   });
 };
-
-const updateShopingListTotalNumber = () => {};
 
 const renderCheckList = () => {
   basketContainer.innerHTML = ` 
@@ -166,7 +168,7 @@ const renderCheckList = () => {
 </div>`;
 };
 
-function deleteProduct(btn) {
+function deleteProduct() {
   numberOfItem = 0; // reset numberofitem
   counterResultEl.innerHTML = numberOfItem;
 

@@ -78,7 +78,6 @@ p {
 
 img {
   width: 100%;
-  // display: block;
 }
 
 button {
@@ -111,6 +110,10 @@ a {
 // general styling end
 
 // ==== NAV ==== //
+nav .wrapper {
+  position: relative;
+}
+
 .navbar {
   padding: 1.5rem 1rem;
   background: var(--White);

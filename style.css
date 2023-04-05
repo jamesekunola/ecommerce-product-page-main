@@ -98,6 +98,10 @@ a {
   align-items: center;
 }
 
+nav .wrapper {
+  position: relative;
+}
+
 .navbar {
   padding: 1.5rem 1rem;
   background: var(--White);
